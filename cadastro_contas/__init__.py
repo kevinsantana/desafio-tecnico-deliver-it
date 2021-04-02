@@ -8,14 +8,17 @@ import traceback
 from loguru import logger
 from fastapi import FastAPI
 from starlette.requests import Request
+from fastapi.staticfiles import StaticFiles
 from starlette.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 
 from cadastro_contas.rotas import v1
+from cadastro_contas.rotas.v1 import doc_sphinx
 from cadastro_contas.arquivos import descricao_html
 from cadastro_contas.excecoes import CadastroContasException
+from docs import build_html_pages, build_html_static, build_html_source
 
 urllib3.disable_warnings()
 
@@ -37,6 +40,11 @@ app = FastAPI(
 # versionamento rotas
 app.include_router(v1, prefix="/v1")
 
+# sphinx
+app.include_router(doc_sphinx.router)
+app.mount("/pages", StaticFiles(directory=build_html_pages), name="pages")
+app.mount("/_static", StaticFiles(directory=build_html_static), name="static")
+app.mount("/_sources", StaticFiles(directory=build_html_source), name="sources")
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
