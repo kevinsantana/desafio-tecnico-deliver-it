@@ -46,6 +46,7 @@ app.mount("/pages", StaticFiles(directory=build_html_pages), name="pages")
 app.mount("/_static", StaticFiles(directory=build_html_static), name="static")
 app.mount("/_sources", StaticFiles(directory=build_html_source), name="sources")
 
+
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     id = uuid.uuid1()
