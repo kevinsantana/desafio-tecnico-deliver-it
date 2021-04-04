@@ -75,16 +75,21 @@ class Conta(DataBase):
         self.query_string += " WHERE CONTA.ID_CONTA = %(id_conta)s"
         return True if self.insert() else False
 
-    @campos_obrigatorios(["id_conta"])
+    @campos_obrigatorios(["id_conta", "nome"])
     def existe(self):
         """
         Verifica se uma conta existe no banco de dados.
 
         :param int id_conta: Identificador da conta.
+        :param str nome: Titular da conta.
         :return: True se a conta for encontrada, False caso contrário.
         :rtype: bool
         """
-        self.query_string = "SELECT COUNT(*) FROM CONTA WHERE CONTA.ID_CONTA = %(id_conta)s"
+        self.query_string = ""
+        if self.__id_conta:
+            self.query_string = "SELECT COUNT(*) FROM CONTA WHERE CONTA.ID_CONTA = %(id_conta)s"
+        if self.__nome:
+            self.query_string = "SELECT COUNT(*) FROM CONTA WHERE CONTA.NOME = %(nome)s"
         return True if self.find_one()[0] else False
 
     @campos_obrigatorios(["id_conta"])
@@ -144,24 +149,27 @@ class ListarContas(DataBase):
         return {key.replace("_ListarContas__", ""): value for key, value in self.__dict__.items()}
 
     @campos_obrigatorios(["nome"])
-    def listar_um(self) -> list:
+    def listar_contas_titular(self) -> list:
         """
         Lista as contas de um usuário.
 
         :param str nome: Titular da conta.
-        :return: Contas atribuídas ao usuário
+        :return: Lista de objetos :class:`database.conta.Conta`, em que cada
+            objeto é uma conta atribuída ao titular encontrado no banco de dados.
         :rtype: list
         """
         self.query_string = "SELECT * FROM CONTA WHERE CONTA.NOME = %(nome)s"
         return [ListarContas(**dict(conta)) for conta in self.find_all()]
 
-    def listar_todos(self, pagina: int, quantidade: int):
+    def listar_todos(self, quantidade: int, pagina: int):
         """
-        Lista todas as contas da base.
+        Lista todas as contas da base, paginando o resultado.
 
         :param int quantidade: Quantidade de registros por bloco de paginação.
         :param int pagina: Bloco (página) da paginação.
-        :return: Total de contas e contas a pagar da base.
+        :return: Total de contas e contas a pagar da base e lista de objetos
+            :class:`database.conta.Conta`, em que cada objeto é uma conta encontrada
+            no banco de dados.
         :rtype: tuple
         """
         self.__offset = (pagina-1)*quantidade
