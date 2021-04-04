@@ -1,0 +1,52 @@
+version: "3.5"
+
+services:
+  db_cadastro_contas:
+    container_name: db_cadastro_contas
+    image: postgres:12
+    environment:
+      POSTGRES_DB: contas
+      POSTGRES_USER: contas
+      POSTGRES_PASSWORD: contas
+    ports:
+      - "15432:5432"
+    volumes:
+      - vdb_contas:/var/lib/postgresql/data/
+    networks:
+      - cadastro-contas-network
+
+  pgadmin_contas:
+    container_name: pgadmin_contas
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: cadastro_contas@email.com
+      PGADMIN_DEFAULT_PASSWORD: 1q2w3e
+    ports:
+      - "8032:80"
+    depends_on:
+      - db_cadastro_contas
+    networks:
+      - cadastro-contas-network
+  
+  cadastro_contas:
+    container_name: cadastro_contas
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cadastro_contas:0.1.0
+    volumes:
+      - .:/deploy
+    ports:
+      - "5000:5000"
+    networks:
+      - cadastro-contas-network
+    depends_on:
+      - db_cadastro_contas
+
+networks:
+  cadastro-contas-network:
+    name: cadastro-contas-network
+    driver: bridge
+
+volumes:
+    vdb_contas:
