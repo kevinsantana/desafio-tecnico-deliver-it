@@ -3,7 +3,7 @@ from cadastro_contas.database import campos_obrigatorios, DataBase
 
 class Conta(DataBase):
     def __init__(self, id_conta: int = None, nome: str = None, valor_original: float = None,
-                 data_vencimento: float = None, data_pagamento: float = None):
+                 data_vencimento: str = None, data_pagamento: str = None):
         self.__id_conta = id_conta
         self.__nome = nome
         self.__valor_original = valor_original
@@ -40,14 +40,15 @@ class Conta(DataBase):
 
         :param str nome: Titular da conta.
         :param float valor_original: Valor monetário da conta, sem juros.
-        :param float data_vencimento: Timestamp da data de vencimento da conta.
-        :param float data_pagamento: Timestamp da data de pagamento da conta
+        :param str data_vencimento: Data de vencimento da conta, no formato aceito
+            pelo postgres yyyy-mm-dd.
+        :param str data_pagamento: Data de pagamento da conta, no formato aceito
+            pelo postgres yyyy-mm-dd.
         :return: True se a operação for exeutada com sucesso, False caso contrário.
         :rtype: bool
         """
         self.query_string = """INSERT INTO CONTA (NOME, VALOR_ORIGINAL, DATA_VENCIMENTO, DATA_PAGAMENTO)
-            VALUES (%(nome)s, %(valor_original)s, to_timestamp(%(data_vencimento)s, 'YYYY-MM-DD'),
-            to_timestamp(%(data_pagamento)s, 'YYYY-MM-DD'))"""
+            VALUES (%(nome)s, %(valor_original)s, %(data_vencimento)s, %(data_pagamento)s)"""
         return True if self.insert() else False
 
     @campos_obrigatorios(["id_conta"])
@@ -58,8 +59,10 @@ class Conta(DataBase):
         :param int id_conta: Identificador da conta a ser atualizada.
         :param str nome: Titular da conta.
         :param float valor_original: Valor monetário da conta, sem juros.
-        :param float data_vencimento: Timestamp da data de vencimento da conta.
-        :param float data_pagamento: Timestamp da data de pagamento da conta
+        :param str data_vencimento: Data de vencimento da conta, no formato aceito
+            pelo postgres yyyy-mm-dd.
+        :param str data_pagamento: Data de pagamento da conta, no formato aceito
+            pelo postgres yyyy-mm-dd.
         :return: True se a operação for exeutada com sucesso, False caso contrário.
         :rtype: bool
         """
@@ -69,9 +72,9 @@ class Conta(DataBase):
         if self.__valor_orignal:
             self.query_string = "UPDATE CONTA SET VALOR_ORIGINAL = %(valor_original)s"
         if self.__data_vencimento:
-            self.query_string = "UPDATE CONTA SET DATA_VENCIMENTO = to_timestamp(%(data_vencimento)s, 'YYYY-MM-DD')"
+            self.query_string = "UPDATE CONTA SET DATA_VENCIMENTO = %(data_vencimento)s"
         if self.__data_pagamento:
-            self.query_string = "UPDATE CONTA SET DATA_PAGAMENTO = to_timestamp(%(data_pagamento)s, 'YYYY-MM-DD')"
+            self.query_string = "UPDATE CONTA SET DATA_PAGAMENTO = %(data_pagamento)s"
         self.query_string += " WHERE CONTA.ID_CONTA = %(id_conta)s"
         return True if self.insert() else False
 
@@ -107,8 +110,8 @@ class Conta(DataBase):
 
 class ListarContas(DataBase):
     def __init__(self, id_conta: int = None, nome: str = None, valor_original: float = None,
-                 valor_corrigido: float = None, data_vencimento: float = None,
-                 dias_atraso: int = None, data_pagamento: float = None):
+                 valor_corrigido: float = None, data_vencimento: str = None,
+                 dias_atraso: int = None, data_pagamento: str = None):
         self.__id_conta = id_conta
         self.__nome = nome
         self.__valor_original = valor_original

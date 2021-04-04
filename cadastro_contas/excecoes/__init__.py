@@ -4,7 +4,7 @@ class CadastroContasException(Exception):
         self.mensagem = mensagem
 
 
-class CamposObrigatoriosException(CadastroContasException):
+class CampoObrigatorioException(CadastroContasException):
     def __init__(self, classe: str, campo: str, status_code: int = 416):
         self.status_code = status_code
         mensagem = f"{classe}: {campo} não informado"

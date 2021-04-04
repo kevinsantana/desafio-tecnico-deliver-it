@@ -18,7 +18,7 @@ class TitularInexistenteException(CadastroContasException):
 class DataInvalidaException(CadastroContasException):
     def __init__(self, data: str, status_code: int = 422):
         self.status_code = status_code
-        mensagem = f"A data {data} é inválida"
+        mensagem = f"A data {data} é inválida, o formato aceito é dd/mm/yyyy"
         super().__init__(self.status_code, mensagem)
 
 

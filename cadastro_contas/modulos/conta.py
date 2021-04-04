@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from cadastro_contas.modulos.juros import calcular_juros
 from cadastro_contas.database.conta import Conta, ListarContas
-from cadastro_contas.modulos.utils import data_e_valida, data_to_timestamp, timestamp_to_data
+from cadastro_contas.modulos.utils import data_e_valida, converter_data, timestamp_to_data
 from cadastro_contas.excecoes.conta import (
     ContaInexistenteException, DataInvalidaException, DataVencimentoMaiorDataPagamentoException,
     TitularInexistenteException
@@ -43,7 +43,7 @@ def dias_atraso(*, data_vencimento: str, data_pagamento: str) -> int:
     :return: Quantidade de dias que a conta está em atraso.
     :rtype: int
     """
-    data_vencimento, data_pagamento = data_to_timestamp(data_vencimento), data_to_timestamp(data_pagamento)
+    data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
     if data_vencimento > data_pagamento:
         raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento, data_pagamento=data_pagamento)
     if data_e_valida(data_vencimento):
@@ -70,12 +70,12 @@ def inserir(*, nome: str, valor_original: float, data_vencimento: str,
     :return: True se a operação for exeutada com sucesso, False caso contrário.
     :rtype: bool
     """
-    data_vencimento, data_pagamento = data_to_timestamp(data_vencimento), data_to_timestamp(data_pagamento)
+    data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
     if data_vencimento > data_pagamento:
         raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento,
                                                         data_pagamento=data_pagamento)
     insercao = Conta(nome=nome, valor_original=valor_original, data_vencimento=data_vencimento,
-                     data_pagamento=data_pagamento)
+                     data_pagamento=data_pagamento).inserir()
     return True if insercao else False
 
 
@@ -95,7 +95,7 @@ def atualizar(*, id_conta: int, nome: str = None, valor_original: float = None,
     :rtype: bool
     """
     if Conta(id_conta=id_conta).existe():
-        data_vencimento, data_pagamento = data_to_timestamp(data_vencimento), data_to_timestamp(data_pagamento)
+        data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
         if data_vencimento > data_pagamento:
             raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento,
                                                             data_pagamento=data_pagamento)
