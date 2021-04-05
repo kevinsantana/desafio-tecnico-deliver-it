@@ -84,7 +84,7 @@ class Juros(DataBase):
         :return: True se a operação for exeutada com sucesso, False caso contrário.
         :rtype: bool
         """
-        self.query_string = "DELETE FROM DOMINIO_JUROS WHERE JUROS.ID_JUROS = %(id_juros)s"
+        self.query_string = "DELETE FROM DOMINIO_JUROS WHERE DOMINIO_JUROS.ID_JUROS = %(id_juros)s"
         return True if self.insert() else False
 
     @campos_obrigatorios(["id_juros"])
@@ -113,3 +113,13 @@ class Juros(DataBase):
             FROM DOMINIO_JUROS WHERE DOMINIO_JUROS.DIAS_EM_ATRASO = %(dias_em_atraso)s"""
         regra = self.find_one()
         return Juros(**dict(regra)) if regra else None
+
+    def listar(self):
+        """
+        Lista as regras de juros do banco de dados.
+
+        :return: Lista de objeto :class:`database.juros.Juros` ou None
+        :rtype: list
+        """
+        self.query_string = "SELECT * FROM DOMINIO_JUROS"
+        return [Juros(**dict(regra)) for regra in self.find_all()]

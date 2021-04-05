@@ -1,5 +1,6 @@
 from cadastro_contas.database.juros import Juros
 from cadastro_contas.excecoes.conta import DataInvalidaException
+from cadastro_contas.excecoes.juros import JurosInexistenteException
 
 
 def calcular_juros(*, dias_em_atraso: int, valor_original: int):
@@ -18,8 +19,52 @@ def calcular_juros(*, dias_em_atraso: int, valor_original: int):
     return "R${:,.2f}".format(valor_corrigido)
 
 
-def inserir():
-    pass
+def inserir(*, dias_em_atraso: int, porcentagem_multa: int, juros_por_dia: float):
+    """
+    Inserir uma nova regra de juros no banco de dados.
+
+    :param int dias_em_atraso: Quantidade de dias em atraso nos quais a regra se aplica.
+    :param int porcentagem_multa: Porcentagem inteira de juros aplicáveis.
+    :param float juros_por_dia: Porcentagem de juros aplicáveis por dia de atraso.
+    :return: True se a operação for exeutada com sucesso, False caso contrário.
+    :rtype: bool
+    """
+    return Juros(dias_em_atraso=dias_em_atraso, porcentagem_multa=porcentagem_multa,
+                 juros_por_dia=juros_por_dia).inserir()
+
+
+def atualizar(*, id_juros: int, dias_em_atraso: int = None, porcentagem_multa: int = None,
+              juros_por_dia: float = None):
+    """
+    Atualiza uma regra de juros no banco de dados.
+
+    :param int id_juros: Identificador no banco de dados do juros.
+    :param int dias_em_atraso: Quantidade de dias em atraso nos quais a regra se aplica.
+    :param int porcentagem_multa: Porcentagem inteira de juros aplicáveis.
+    :param float juros_por_dia: Porcentagem de juros aplicáveis por dia de atraso.
+    :raises JurosInexistenteException: Se o juros não existir.
+    :return: True se a operação for exeutada com sucesso, False caso contrário.
+    :rtype: bool
+    """
+    if Juros(id_juros=id_juros).buscar():
+        return Juros(id_juros, dias_em_atraso, porcentagem_multa, juros_por_dia).atualizar()
+    else:
+        raise JurosInexistenteException(404, id_juros)
+
+
+def deletar(*, id_juros: int):
+    """
+    Deleta uma regra de juros do banco de dados.
+
+    :param int id_juros: Identificador no banco de dados do juros.
+    :raises JurosInexistenteException: Se o juros não existir.
+    :return: True se a operação for exeutada com sucesso, False caso contrário.
+    :rtype: bool
+    """
+    if Juros(id_juros=id_juros).buscar():
+        return Juros(id_juros=id_juros).deletar()
+    else:
+        raise JurosInexistenteException(404, id_juros)
 
 
 def consultar_juros(*, dias_em_atraso: int):
@@ -39,3 +84,13 @@ def consultar_juros(*, dias_em_atraso: int):
         return Juros(dias_em_atraso=[regra for regra in regra_dias.values() if regra][0]).consultar_regra()
     else:
         raise DataInvalidaException(dias_em_atraso)
+
+
+def listar():
+    """
+    Lista as regras de juros do banco de dados.
+
+    :return: Lista de objeto :class:`database.juros.Juros` ou None
+    :rtype: list
+    """
+    return [juros.dict() for juros in Juros().listar()]
