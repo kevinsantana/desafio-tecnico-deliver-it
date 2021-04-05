@@ -1,5 +1,4 @@
 from datetime import datetime
-from collections import defaultdict
 
 from cadastro_contas.modulos.juros import calcular_juros
 from cadastro_contas.database.conta import Conta, ListarContas
@@ -138,17 +137,15 @@ def listar_contas_titular(*, nome: str) -> list:
         raise TitularInexistenteException(404, nome)
 
 
-def listar_todos(quantidade: int, pagina: int) -> dict:
+def listar_todos(quantidade: int, pagina: int):
     """
-    separar as contas por titular, devolvendo o resultado em ordem alfabetica
     Retorna todas as contas disponibilizadas no banco de dados, paginando o resultado.
 
     :param int quantidade: Quantidade de registros por bloco de paginação.
     :param int pagina: Bloco (página) da paginação.
     :return: Dicionário ordenado por titular de todas as contas disponíveis no
         banco de dados.
-    :rtpe: dict
+    :rtpe: tuple
     """
-    contas_titulares = defaultdict(list)
     total, contas = ListarContas().listar_todos(quantidade=quantidade, pagina=pagina)
-    return total, [contas_titulares[conta.nome].append(__montar_conta(conta)) for conta in contas]
+    return total, [__montar_conta(conta) for conta in contas]

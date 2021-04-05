@@ -1,7 +1,5 @@
 from math import ceil
 
-from loguru import logger
-
 
 def montar_paginacao(dados: list, quantidade: int, pagina: int, total: int, url: str) -> dict:
     total, identificador = ceil(total/quantidade), ""
@@ -9,7 +7,6 @@ def montar_paginacao(dados: list, quantidade: int, pagina: int, total: int, url:
         "proxima": "", "anterior": "", "primeira": "", "ultima": "", "total": total
     }}
     endpoint, params = url.split("?")
-    logger.debug(params)
     if params.startswith('quantidade'):
         _, _, *outros = params.split("&")
     else:

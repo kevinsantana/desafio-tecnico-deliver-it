@@ -1,7 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field
 
-from cadastro_contas.modelos import Message, parse_openapi
+from cadastro_contas.modelos import Message, Paginacao, parse_openapi
 
 
 class Conta(BaseModel):
@@ -43,6 +43,11 @@ class ListarContasTitularResponse(BaseModel):
     resultado: List[InformacoesConta] = Field(..., description="Contas associadas a um titular")
 
 
+class ListarContasResponse(BaseModel):
+    resultado: List[InformacoesConta] = Field(..., description="Informações das contas")
+    paginacao: Paginacao = Field(..., description="Dados relativos a paginação do objeto")
+
+
 CONTA_INSERT_DEFAULT_RESPONSE = parse_openapi([
     Message(status=416, mensagem="A data de vencimento não pode ser maior que a data de pagamento",
             stacktrace="Traceback (most recent call last): ..."),
@@ -63,3 +68,4 @@ CONTA_LISTAR_TITULAR_DEFAULT_RESPONSE = parse_openapi([
     Message(status=404, mensagem="O titular da conta não existe",
             stacktrace="Traceback (most recent call last): ...")
 ])
+CONTA_LISTAR_DEFAULT_RESPONSE = parse_openapi()

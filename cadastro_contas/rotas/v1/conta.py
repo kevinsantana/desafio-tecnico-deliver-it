@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Body, Query
+from fastapi import APIRouter, Body, Query, Request
 
-from cadastro_contas.modulos import conta as cnt
 from cadastro_contas.modelos.conta import Conta
-from cadastro_contas.modelos.conta import AtualizarContaRequest, AtualizarContaResponse, CONTA_UPDATE_DEFAULT_RESPONSE
+from cadastro_contas.modulos import conta as cnt
+from cadastro_contas.rotas.v1 import montar_paginacao
+from cadastro_contas.modelos.conta import ListarContasResponse, CONTA_LISTAR_DEFAULT_RESPONSE
 from cadastro_contas.modelos.conta import InserirContaResponse, CONTA_INSERT_DEFAULT_RESPONSE
 from cadastro_contas.modelos.conta import DeletarContaResponse, CONTA_DELETE_DEFAULT_RESPONSE
 from cadastro_contas.modelos.conta import ListarContasTitularResponse, CONTA_LISTAR_TITULAR_DEFAULT_RESPONSE
+from cadastro_contas.modelos.conta import AtualizarContaRequest, AtualizarContaResponse, CONTA_UPDATE_DEFAULT_RESPONSE
 
 
 router = APIRouter()
@@ -53,3 +55,15 @@ def listar_contas_titular(nome: str = Query(..., description="Nome do titular da
     Lista contas de um titular.
     """
     return {"resultado": cnt.listar_contas_titular(nome=nome)}
+
+
+@router.get("/", response_model=ListarContasResponse, status_code=200,
+            summary="Listar todas as contas da base", responses=CONTA_LISTAR_DEFAULT_RESPONSE)
+def listar_todos(request: Request,
+                 quantidade: int = Query(10, description="Quantidade de registros de retorno", gt=0),
+                 pagina: int = Query(1, description="Página atual de retorno", gt=0)):
+    """
+    Lista todas as contas da base.
+    """
+    total, contas = cnt.listar_todos(quantidade=quantidade, pagina=pagina)
+    return montar_paginacao(contas, quantidade, pagina, total, str(request.url))
