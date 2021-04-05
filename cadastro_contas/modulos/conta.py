@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from cadastro_contas.modulos.juros import calcular_juros
 from cadastro_contas.database.conta import Conta, ListarContas
-from cadastro_contas.modulos.utils import data_e_valida, converter_data, timestamp_to_data
+from cadastro_contas.modulos.utils import data_e_valida, data_to_postgres_data, postges_data_to_data
 from cadastro_contas.excecoes.conta import (
     ContaInexistenteException, DataInvalidaException, DataVencimentoMaiorDataPagamentoException,
     TitularInexistenteException
@@ -18,11 +18,11 @@ def __montar_conta(conta) -> dict:
     :return: Dicionário da conta formatada.
     :rtype: list
     """
-    data_vencimento, data_pagamento = timestamp_to_data(conta.data_vencimento), timestamp_to_data(conta.data_pagamento)
+    data_vencimento, data_pagamento = postges_data_to_data(conta.data_vencimento), postges_data_to_data(conta.data_pagamento) # noqa
     dias_atrasados = dias_atraso(data_vencimento=data_vencimento, data_pagamento=data_pagamento)
     return {
         "nome": conta.nome,
-        "valor_original": conta.valor_original,
+        "valor_original": "R${:,.2f}".format(conta.valor_original),
         "dias_atraso": dias_atrasados,
         "valor_corrigido": calcular_juros(dias_em_atraso=dias_atrasados,
                                           valor_original=conta.valor_original)
@@ -43,13 +43,12 @@ def dias_atraso(*, data_vencimento: str, data_pagamento: str) -> int:
     :return: Quantidade de dias que a conta está em atraso.
     :rtype: int
     """
-    data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
     if data_vencimento > data_pagamento:
         raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento, data_pagamento=data_pagamento)
     if data_e_valida(data_vencimento):
         if data_e_valida(data_pagamento):
-            d1 = datetime.strptime(data_vencimento, "%d/%m/%Y")
-            d2 = datetime.strptime(data_pagamento, "%d/%m/%Y")
+            d1 = datetime.strptime(data_vencimento, "%d/%m/%Y").date()
+            d2 = datetime.strptime(data_pagamento, "%d/%m/%Y").date()
             return (d2 - d1).days
         else:
             raise DataInvalidaException(data=data_pagamento)
@@ -70,7 +69,7 @@ def inserir(*, nome: str, valor_original: float, data_vencimento: str,
     :return: True se a operação for exeutada com sucesso, False caso contrário.
     :rtype: bool
     """
-    data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
+    data_vencimento, data_pagamento = data_to_postgres_data(data_vencimento), data_to_postgres_data(data_pagamento)
     if data_vencimento > data_pagamento:
         raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento,
                                                         data_pagamento=data_pagamento)
@@ -95,12 +94,16 @@ def atualizar(*, id_conta: int, nome: str = None, valor_original: float = None,
     :rtype: bool
     """
     if Conta(id_conta=id_conta).existe():
-        data_vencimento, data_pagamento = converter_data(data_vencimento), converter_data(data_pagamento)
-        if data_vencimento > data_pagamento:
-            raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento,
-                                                            data_pagamento=data_pagamento)
+        if data_vencimento:
+            data_vencimento = data_to_postgres_data(data_vencimento)
+        if data_pagamento:
+            data_pagamento = data_to_postgres_data(data_pagamento)
+        if data_pagamento and data_vencimento:
+            if data_vencimento > data_pagamento:
+                raise DataVencimentoMaiorDataPagamentoException(data_vencimento=data_vencimento,
+                                                                data_pagamento=data_pagamento)
         return Conta(id_conta=id_conta, nome=nome, valor_original=valor_original,
-                     data_vencimento=data_vencimento, data_pagamento=data_pagamento)
+                     data_vencimento=data_vencimento, data_pagamento=data_pagamento).atualizar()
     else:
         raise ContaInexistenteException(404, id_conta)
 

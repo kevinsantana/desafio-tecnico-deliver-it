@@ -20,15 +20,15 @@ class Conta(DataBase):
 
     @property
     def valor_original(self):
-        return self.__valor_orignal
+        return self.__valor_original
 
     @property
     def data_vencimento(self):
-        return self.__data_vencimento
+        return str(self.__data_vencimento)
 
     @property
     def data_pagamento(self):
-        return self.__data_pagamento
+        return str(self.__data_pagamento)
 
     def dict(self):
         return {key.replace("_Conta__", ""): value for key, value in self.__dict__.items()}
@@ -69,7 +69,7 @@ class Conta(DataBase):
         self.query_string = ""
         if self.__nome:
             self.query_string = "UPDATE CONTA SET NOME = %(nome)s"
-        if self.__valor_orignal:
+        if self.__valor_original:
             self.query_string = "UPDATE CONTA SET VALOR_ORIGINAL = %(valor_original)s"
         if self.__data_vencimento:
             self.query_string = "UPDATE CONTA SET DATA_VENCIMENTO = %(data_vencimento)s"
@@ -78,7 +78,7 @@ class Conta(DataBase):
         self.query_string += " WHERE CONTA.ID_CONTA = %(id_conta)s"
         return True if self.insert() else False
 
-    @campos_obrigatorios(["id_conta", "nome"])
+    # @campos_obrigatorios(["id_conta"])
     def existe(self):
         """
         Verifica se uma conta existe no banco de dados.
@@ -130,7 +130,7 @@ class ListarContas(DataBase):
 
     @property
     def valor_original(self):
-        return self.__valor_orignal
+        return self.__valor_original
 
     @property
     def valor_corrigido(self):
@@ -142,11 +142,11 @@ class ListarContas(DataBase):
 
     @property
     def data_vencimento(self):
-        return self.__data_vencimento
+        return str(self.__data_vencimento)
 
     @property
     def data_pagamento(self):
-        return self.__data_pagamento
+        return str(self.__data_pagamento)
 
     def dict(self):
         return {key.replace("_ListarContas__", ""): value for key, value in self.__dict__.items()}

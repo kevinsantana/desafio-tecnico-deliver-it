@@ -9,11 +9,15 @@ def data_e_valida(data: str) -> bool:
     return True if re.compile(VALIDA_DATA_RE).search(data) else False
 
 
-def converter_data(data: str, timestamp: bool = False):
+def data_to_postgres_data(data: str, timestamp: bool = False):
     if data_e_valida(data):
-        return datetime.strptime(data, "%d/%m/%Y").timestamp() if timestamp else datetime.strptime(data, '%d/%m/%Y').date() # noqa
+        return datetime.strptime(data, '%d/%m/%Y').date()
     else:
         raise DataInvalidaException(data=data)
+
+
+def postges_data_to_data(data: str):
+    return datetime.strptime(data, '%Y-%m-%d').strftime('%d/%m/%Y')
 
 
 def timestamp_to_data(data: float):
