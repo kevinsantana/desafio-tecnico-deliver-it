@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Database &mdash; Desafio Técnico Deliver It - Cadastro de Contas</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Índice"
+              href="../genindex.html"/>
+        <link rel="search" title="Buscar" href="../search.html"/>
+    <link rel="top" title="Desafio Técnico Deliver It - Cadastro de Contas" href="../index.html"/>
+        <link rel="prev" title="Módulos" href="modulos.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Desafio Técnico Deliver It - Cadastro de Contas
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Documentação básica</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pre_req.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instalacao.html">Instalação e Execução</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Executando testes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feito_com.html">Construído Com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentação do Código</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modulos.html">Módulos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modulos.html#module-modulos.healthcheck">Healthcheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modulos.html#module-modulos.conta">Conta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modulos.html#module-modulos.juros">Juros</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conta">Conta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#listarcontas">ListarContas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#juros">Juros</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Desafio Técnico Deliver It - Cadastro de Contas</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Database</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/pages/database.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="database">
+<h1>Database<a class="headerlink" href="#database" title="Link permanente para este título">¶</a></h1>
+<p>Classes do Banco de Dados.</p>
+<div class="section" id="id1">
+<h2>Database<a class="headerlink" href="#id1" title="Link permanente para este título">¶</a></h2>
+<dl class="py class">
+<dt id="database.DataBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">database.</span></code><code class="sig-name descname"><span class="pre">DataBase</span></code><a class="headerlink" href="#database.DataBase" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Cada tabela do banco de dados é uma classe, em que cada coluna é um atributo
+da classe e os métodos são suas transações (DML ou DDL). Os dados devolvidos
+de operações com o banco de dados são dicionários (cursor_factory=DictCursor)
+em que cada chave é a coluna da tabela e o valor desta chave é o resultado da
+operação, para isto, todas as classes que herdam de DataBase precisam implementar
+o seu método dict.
+Assim, é possível instanciar um objeto da classe, ou seja, uma tabela do banco
+de dados mapeando cada atributo da classe a uma coluna desta tabela. E, ainda,
+aproveitando da OO não é necessário que as demais classes implemetem as transações
+comuns a todas as tabelas do banco de dados: insert, find_one, find_all.</p>
+<dl class="py method">
+<dt id="database.DataBase.__connect">
+<code class="sig-name descname"><span class="pre">__connect</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.DataBase.__connect" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Efetua a conexão com o banco de dados, os dados de conexão são capturados
+de variáveis de ambientes exportadas no arquivo /cadastro_contas/config.py.
+:raises OperationalError: Se não for possível a conexão com o banco de dados.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.DataBase.__disconect">
+<code class="sig-name descname"><span class="pre">__disconect</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.DataBase.__disconect" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Fecha a conexão com o banco de dados.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="database.DataBase.__weakref__">
+<code class="sig-name descname"><span class="pre">__weakref__</span></code><a class="headerlink" href="#database.DataBase.__weakref__" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.DataBase.find_all">
+<code class="sig-name descname"><span class="pre">find_all</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#database.DataBase.find_all" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Trás (fetch) todas as linhas do banco de dados afetadas pela consulta
+construída em query_string. Caso não exista registro é retornado uma lista vazia.
+A conexão é imediatamente aberta e logo em seguida fechada, garantindo que
+a conexão fique aberta desnecessariamente.
+:param bool total: Caso seja necessário retornar a quantidade total de
+registros da busca.
+:return: Resultado da busca.
+:rtype: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.DataBase.find_one">
+<code class="sig-name descname"><span class="pre">find_one</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.DataBase.find_one" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Trás (fetch) a próxima linha do banco de dados afetadas pela consulta
+construída em query_string. Caso não exista registro é retornado None.
+A conexão é imediatamente aberta e logo em seguida fechada, garantindo que
+não fique aberta desnecessariamente.
+:return: Resultado da busca.
+:rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.DataBase.insert">
+<code class="sig-name descname"><span class="pre">insert</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.DataBase.insert" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Insere um dado no banco de dados. As classes que herdam de DataBase devem
+ser instanciadas com o método query_string que é a operação que será
+executada no banco de dados, quando assim for necessário, e o método dict
+para que os valores do objeto instanciado sejam mapeados na transação com
+o banco de dados, da seguinte maneira:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            INSERT INTO some_table (an_int, a_date, another_date, a_string)</span>
+<span class="s1">            VALUES (</span><span class="si">%(int)s</span><span class="s1">, </span><span class="si">%(date)s</span><span class="s1">, </span><span class="si">%(date)s</span><span class="s1">, </span><span class="si">%(str)s</span><span class="s1">);</span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">,</span>
+            <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span> <span class="s2">&quot;O&#39;Reilly&quot;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2005</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>A conexão é imediatamente aberta e logo em seguida fechada, garantindo que
+a conexão não fique aberta desnecessariamente.
+:return: Quantidade de linhas afetadas pela operação, em caso de sucesso 1
+senão None, isto é, a operação não foi bem sucedida.
+:rtype: int ou None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="conta">
+<h2>Conta<a class="headerlink" href="#conta" title="Link permanente para este título">¶</a></h2>
+<dl class="py class">
+<dt id="database.conta.Conta">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">database.conta.</span></code><code class="sig-name descname"><span class="pre">Conta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta" title="Link permanente para esta definição">¶</a></dt>
+<dd><dl class="py method">
+<dt id="database.conta.Conta.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta.__init__" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.Conta.atualizar">
+<code class="sig-name descname"><span class="pre">atualizar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta.atualizar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Atualiza uma conta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_conta</strong> (<em>int</em>) – Identificador da conta a ser atualizada.</p></li>
+<li><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p></li>
+<li><p><strong>valor_original</strong> (<em>float</em>) – Valor monetário da conta, sem juros.</p></li>
+<li><p><strong>data_vencimento</strong> (<em>str</em>) – Data de vencimento da conta, no formato aceito
+pelo postgres yyyy-mm-dd.</p></li>
+<li><p><strong>data_pagamento</strong> (<em>str</em>) – Data de pagamento da conta, no formato aceito
+pelo postgres yyyy-mm-dd.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.Conta.deletar">
+<code class="sig-name descname"><span class="pre">deletar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta.deletar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Deleta uma conta do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>id_conta</strong> (<em>int</em>) – Identificador da conta.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.Conta.existe">
+<code class="sig-name descname"><span class="pre">existe</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta.existe" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Verifica se uma conta existe no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_conta</strong> (<em>int</em>) – Identificador da conta.</p></li>
+<li><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a conta for encontrada, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.Conta.inserir">
+<code class="sig-name descname"><span class="pre">inserir</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.Conta.inserir" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Insere uma conta no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p></li>
+<li><p><strong>valor_original</strong> (<em>float</em>) – Valor monetário da conta, sem juros.</p></li>
+<li><p><strong>data_vencimento</strong> (<em>str</em>) – Data de vencimento da conta, no formato aceito
+pelo postgres yyyy-mm-dd.</p></li>
+<li><p><strong>data_pagamento</strong> (<em>str</em>) – Data de pagamento da conta, no formato aceito
+pelo postgres yyyy-mm-dd.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="listarcontas">
+<h2>ListarContas<a class="headerlink" href="#listarcontas" title="Link permanente para este título">¶</a></h2>
+<dl class="py class">
+<dt id="database.conta.ListarContas">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">database.conta.</span></code><code class="sig-name descname"><span class="pre">ListarContas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_corrigido</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.ListarContas" title="Link permanente para esta definição">¶</a></dt>
+<dd><dl class="py method">
+<dt id="database.conta.ListarContas.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_corrigido</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.ListarContas.__init__" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.ListarContas.listar_contas_titular">
+<code class="sig-name descname"><span class="pre">listar_contas_titular</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#database.conta.ListarContas.listar_contas_titular" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista as contas de um usuário.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Lista de objetos <a class="reference internal" href="#database.conta.Conta" title="database.conta.Conta"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.conta.Conta</span></code></a>, em que cada
+objeto é uma conta atribuída ao titular encontrado no banco de dados.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.conta.ListarContas.listar_todos">
+<code class="sig-name descname"><span class="pre">listar_todos</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantidade</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagina</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.conta.ListarContas.listar_todos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista todas as contas da base, paginando o resultado.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quantidade</strong> (<em>int</em>) – Quantidade de registros por bloco de paginação.</p></li>
+<li><p><strong>pagina</strong> (<em>int</em>) – Bloco (página) da paginação.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Total de contas e contas a pagar da base e lista de objetos
+<a class="reference internal" href="#database.conta.Conta" title="database.conta.Conta"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.conta.Conta</span></code></a>, em que cada objeto é uma conta encontrada
+no banco de dados.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="juros">
+<h2>Juros<a class="headerlink" href="#juros" title="Link permanente para este título">¶</a></h2>
+<dl class="py class">
+<dt id="database.juros.Juros">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">database.juros.</span></code><code class="sig-name descname"><span class="pre">Juros</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_juros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">porcentagem_multa</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">juros_por_dia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros" title="Link permanente para esta definição">¶</a></dt>
+<dd><dl class="py method">
+<dt id="database.juros.Juros.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_juros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">porcentagem_multa</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">juros_por_dia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.__init__" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.atualizar">
+<code class="sig-name descname"><span class="pre">atualizar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.atualizar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Atualiza uma regra de juros no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_juros</strong> (<em>int</em>) – Identificador no banco de dados do juros.</p></li>
+<li><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias em atraso nos quais a regra se aplica.</p></li>
+<li><p><strong>porcentagem_multa</strong> (<em>int</em>) – Porcentagem inteira de juros aplicáveis.</p></li>
+<li><p><strong>juros_por_dia</strong> (<em>float</em>) – Porcentagem de juros aplicáveis por dia de atraso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.buscar">
+<code class="sig-name descname"><span class="pre">buscar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.buscar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Busca uma regra de juros no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>id_juros</strong> (<em>int</em>) – Identificador no banco de dados do juros.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Regra de juros do identificador informado.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>objeto <a class="reference internal" href="#database.juros.Juros" title="database.juros.Juros"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.juros.Juros</span></code></a> ou None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.consultar_regra">
+<code class="sig-name descname"><span class="pre">consultar_regra</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.consultar_regra" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Recupera uma regra de juros do banco de dados a partir da quantidade de dias em atraso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias em atraso nos quais a regra se aplica.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Regra de juros dos dias em atraso informado.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>objeto <a class="reference internal" href="#database.juros.Juros" title="database.juros.Juros"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.juros.Juros</span></code></a> ou None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.deletar">
+<code class="sig-name descname"><span class="pre">deletar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.deletar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Deleta uma regra de juros do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>id_juros</strong> (<em>int</em>) – Identificador no banco de dados do juros.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.inserir">
+<code class="sig-name descname"><span class="pre">inserir</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.inserir" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Insere uma nova regra de juros no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias em atraso nos quais a regra se aplica.</p></li>
+<li><p><strong>porcentagem_multa</strong> (<em>int</em>) – Porcentagem inteira de juros aplicáveis.</p></li>
+<li><p><strong>juros_por_dia</strong> (<em>float</em>) – Porcentagem de juros aplicáveis por dia de atraso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="database.juros.Juros.listar">
+<code class="sig-name descname"><span class="pre">listar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database.juros.Juros.listar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista as regras de juros do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Lista de objeto <a class="reference internal" href="#database.juros.Juros" title="database.juros.Juros"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.juros.Juros</span></code></a> ou None</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modulos.html" class="btn btn-neutral" title="Módulos" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Kevin de Santana Araujo.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

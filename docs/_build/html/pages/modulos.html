@@ -34,6 +34,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Buscar" href="../search.html"/>
     <link rel="top" title="Desafio Técnico Deliver It - Cadastro de Contas" href="../index.html"/>
+        <link rel="next" title="Database" href="database.html"/>
         <link rel="prev" title="Deploy" href="deploy.html"/> 
 
   
@@ -90,7 +91,16 @@
 <p class="caption"><span class="caption-text">Documentação do Código</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Módulos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#healthcheck">Healthcheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-modulos.healthcheck">Healthcheck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-modulos.conta">Conta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-modulos.juros">Juros</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="database.html#id1">Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#conta">Conta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#listarcontas">ListarContas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#juros">Juros</a></li>
 </ul>
 </li>
 </ul>
@@ -139,10 +149,9 @@
             
   <div class="section" id="modulos">
 <h1>Módulos<a class="headerlink" href="#modulos" title="Link permanente para este título">¶</a></h1>
-<div class="section" id="healthcheck">
-<h2>Healthcheck<a class="headerlink" href="#healthcheck" title="Link permanente para este título">¶</a></h2>
-<p>Verifica o estado de saúde da API.</p>
-<span class="target" id="module-modulos.healthcheck"></span><dl class="py function">
+<div class="section" id="module-modulos.healthcheck">
+<span id="healthcheck"></span><h2>Healthcheck<a class="headerlink" href="#module-modulos.healthcheck" title="Link permanente para este título">¶</a></h2>
+<dl class="py function">
 <dt id="modulos.healthcheck.health_condition">
 <code class="sig-prename descclassname"><span class="pre">modulos.healthcheck.</span></code><code class="sig-name descname"><span class="pre">health_condition</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#modulos.healthcheck.health_condition" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Informa o estado de saúde da aplicação. O objetivo é prover um padrão de estrutura
@@ -150,6 +159,285 @@ de arquivos do projeto.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>Lista com o estado de saúde para a aplicação.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-modulos.conta">
+<span id="conta"></span><h2>Conta<a class="headerlink" href="#module-modulos.conta" title="Link permanente para este título">¶</a></h2>
+<dl class="py function">
+<dt id="modulos.conta.__montar_conta">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">__montar_conta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conta</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="headerlink" href="#modulos.conta.__montar_conta" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Formata conta para apresentação. Calculando dias em atraso e valor corrigido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>conta</strong> – Conta a ser formatada.</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Dicionário da conta formatada.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.atualizar">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">atualizar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.conta.atualizar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Atualiza as informações de uma conta no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_conta</strong> (<em>int</em>) – Identificador da conta a ser atulizada.</p></li>
+<li><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p></li>
+<li><p><strong>valor_original</strong> (<em>float</em>) – Valor monetário da conta.</p></li>
+<li><p><strong>data_vencimento</strong> (<em>str</em>) – Data de vencimento da conta, no formato dd/mm/yyyy</p></li>
+<li><p><strong>data_pagamento</strong> (<em>str</em>) – Data de pagamento da conta, no formato dd/mm/yyyy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ContaInexistenteException</strong> – Se a conta informada não for encontrada no banco de dados.</p></li>
+<li><p><strong>DataVencimentoMaiorDataPagamentoException</strong> – Se a data de vencimento for maior que a data de pagamento.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>True se a conta tiver sido atualizado com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.deletar">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">deletar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_conta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.conta.deletar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Excluí uma conta do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>id_conta</strong> (<em>int</em>) – Identificador da conta.</p>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>ContaInexistenteException</strong> – Se a conta informada não for encontrada no banco de dados.</p>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>True se a operação for executada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.dias_atraso">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">dias_atraso</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#modulos.conta.dias_atraso" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Calcula a quantidade de dias que uma conta está atrasada.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_vencimento</strong> (<em>str</em>) – Data de vencimento da conta, no formato dd/mm/yyyy.</p></li>
+<li><p><strong>data_pagamento</strong> (<em>str</em>) – Data de pagamento da conta, no formato dd/mm/yyyy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>DataVencimentoMaiorDataPagamentoException</strong> – Se a data de vencimento for maior que a data de pagamento.</p></li>
+<li><p><strong>DataInvalidaException</strong> – Se uma das duas datas tiver um formato inválido.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Quantidade de dias que a conta está em atraso.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.inserir">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">inserir</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_vencimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_pagamento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.conta.inserir" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Insere uma conta no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nome</strong> (<em>str</em>) – Titular da conta.</p></li>
+<li><p><strong>valor_original</strong> (<em>float</em>) – Valor monetário da conta, sem juros.</p></li>
+<li><p><strong>data_vencimento</strong> (<em>str</em>) – Data de vencimento da conta, no formato dd/mm/yyyy.</p></li>
+<li><p><strong>data_pagamento</strong> (<em>str</em>) – Data de pagamento da conta, no formato dd/mm/yyyy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>DataVencimentoMaiorDataPagamentoException</strong> – Se a data de vencimento for maior que a data de pagamento.</p>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.listar_contas_titular">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">listar_contas_titular</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#modulos.conta.listar_contas_titular" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista todas as contas de um usuário, a partir do seu nome.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>nome</strong> (<em>str</em>) – Titular da(s) conta(s).</p>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>TitularInexistenteException</strong> – Se o titular da conta informada não existir.</p>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Contas do titular informado.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.conta.listar_todos">
+<code class="sig-prename descclassname"><span class="pre">modulos.conta.</span></code><code class="sig-name descname"><span class="pre">listar_todos</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantidade</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pagina</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.conta.listar_todos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna todas as contas disponibilizadas no banco de dados, paginando o resultado.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quantidade</strong> (<em>int</em>) – Quantidade de registros por bloco de paginação.</p></li>
+<li><p><strong>pagina</strong> (<em>int</em>) – Bloco (página) da paginação.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Dicionário ordenado por titular de todas as contas disponíveis no
+banco de dados.</p>
+</dd>
+<dt class="field-odd">Rtpe</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-modulos.juros">
+<span id="juros"></span><h2>Juros<a class="headerlink" href="#module-modulos.juros" title="Link permanente para este título">¶</a></h2>
+<dl class="py function">
+<dt id="modulos.juros.atualizar">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">atualizar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_juros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">porcentagem_multa</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">juros_por_dia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.atualizar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Atualiza uma regra de juros no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_juros</strong> (<em>int</em>) – Identificador no banco de dados do juros.</p></li>
+<li><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias em atraso nos quais a regra se aplica.</p></li>
+<li><p><strong>porcentagem_multa</strong> (<em>int</em>) – Porcentagem inteira de juros aplicáveis.</p></li>
+<li><p><strong>juros_por_dia</strong> (<em>float</em>) – Porcentagem de juros aplicáveis por dia de atraso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>JurosInexistenteException</strong> – Se o juros não existir.</p>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.juros.calcular_juros">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">calcular_juros</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_original</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.calcular_juros" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Calcula o valor corrigido com juros de uma conta em atraso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias que a conta está atrasada.</p></li>
+<li><p><strong>valor_original</strong> (<em>int</em>) – Valor original da conta.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Valor da conta em atraso.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.juros.consultar_juros">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">consultar_juros</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.consultar_juros" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna a regra de juros para a quantidade de juros em atraso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias que a conta está atrasada.</p>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>DataInvalidaException</strong> – Se a data informada for inválida, isto é, não
+existe regra para a quantidade de dias em atraso ou não é do tipo inteiro.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.juros.deletar">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">deletar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_juros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.deletar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Deleta uma regra de juros do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>id_juros</strong> (<em>int</em>) – Identificador no banco de dados do juros.</p>
+</dd>
+<dt class="field-even">Levanta</dt>
+<dd class="field-even"><p><strong>JurosInexistenteException</strong> – Se o juros não existir.</p>
+</dd>
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.juros.inserir">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">inserir</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias_em_atraso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">porcentagem_multa</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">juros_por_dia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.inserir" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Inserir uma nova regra de juros no banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dias_em_atraso</strong> (<em>int</em>) – Quantidade de dias em atraso nos quais a regra se aplica.</p></li>
+<li><p><strong>porcentagem_multa</strong> (<em>int</em>) – Porcentagem inteira de juros aplicáveis.</p></li>
+<li><p><strong>juros_por_dia</strong> (<em>float</em>) – Porcentagem de juros aplicáveis por dia de atraso.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>True se a operação for exeutada com sucesso, False caso contrário.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="modulos.juros.listar">
+<code class="sig-prename descclassname"><span class="pre">modulos.juros.</span></code><code class="sig-name descname"><span class="pre">listar</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#modulos.juros.listar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista as regras de juros do banco de dados.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Lista de objeto <a class="reference internal" href="database.html#database.juros.Juros" title="database.juros.Juros"><code class="xref py py-class docutils literal notranslate"><span class="pre">database.juros.Juros</span></code></a> ou None</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>list</p>
@@ -166,6 +454,8 @@ de arquivos do projeto.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="database.html" class="btn btn-neutral float-right" title="Database" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="deploy.html" class="btn btn-neutral" title="Deploy" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

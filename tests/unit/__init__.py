@@ -1,5 +1,5 @@
-import unittest
+from fastapi.testclient import TestClient
 
+from cadastro_contas import app
 
-if __name__ == '__main__':
-    unittest.main()
+client = TestClient(app)
