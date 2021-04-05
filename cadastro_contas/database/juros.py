@@ -49,7 +49,7 @@ class Juros(DataBase):
         :return: True se a operação for exeutada com sucesso, False caso contrário.
         :rtype: bool
         """
-        self.query_string = """INSERT INTO JUROS (DIAS_EM_ATRASO, PORCENTAGEM_MULTA, JUROS_POR_DIA)
+        self.query_string = """INSERT INTO DOMINIO_JUROS (DIAS_EM_ATRASO, PORCENTAGEM_MULTA, JUROS_POR_DIA)
             VALUES (%(dias_em_atraso)s, %(porcentagem_multa)s, %(juros_por_dia)s)"""
         return True if self.insert() else False
 
@@ -67,12 +67,12 @@ class Juros(DataBase):
         """
         self.query_string = ""
         if self.__dias_em_atraso:
-            self.query_string = "UPDATE JUROS SET DIAS_EM_ATRASO = %(dias_em_atraso)s"
+            self.query_string = "UPDATE DOMINIO_JUROS SET DIAS_EM_ATRASO = %(dias_em_atraso)s"
         if self.__porcentagem_multa:
-            self.query_string = "UPDATE JUROS SET PORCENTAGEM_MULTA = %(porcentagem_multa)s"
+            self.query_string = "UPDATE DOMINIO_JUROS SET PORCENTAGEM_MULTA = %(porcentagem_multa)s"
         if self.__juros_por_dia:
-            self.query_string = "UPDATE JUROS SET JUROS_POR_DIA = %(juros_por_dia)s"
-        self.query_string += " WHERE JUROS.ID_JUROS = %(id_juros)s"
+            self.query_string = "UPDATE DOMINIO_JUROS SET JUROS_POR_DIA = %(juros_por_dia)s"
+        self.query_string += " WHERE DOMINIO_JUROS.ID_JUROS = %(id_juros)s"
         return True if self.insert() else False
 
     @campos_obrigatorios(["id_juros"])
@@ -84,7 +84,7 @@ class Juros(DataBase):
         :return: True se a operação for exeutada com sucesso, False caso contrário.
         :rtype: bool
         """
-        self.query_string = "DELETE FROM JUROS WHERE JUROS.ID_JUROS = %(id_juros)s"
+        self.query_string = "DELETE FROM DOMINIO_JUROS WHERE DOMINIO_JUROS.ID_JUROS = %(id_juros)s"
         return True if self.insert() else False
 
     @campos_obrigatorios(["id_juros"])
@@ -96,7 +96,7 @@ class Juros(DataBase):
         :return: Regra de juros do identificador informado.
         :rtype: objeto :class:`database.juros.Juros` ou None
         """
-        self.query_string = "SELECT * FROM JUROS WHERE JUROS.ID_JUROS = %(id_juros)s"
+        self.query_string = "SELECT * FROM DOMINIO_JUROS WHERE DOMINIO_JUROS.ID_JUROS = %(id_juros)s"
         regra = self.find_one()
         return Juros(**dict(regra)) if regra else None
 
@@ -110,6 +110,16 @@ class Juros(DataBase):
         :rtype: objeto :class:`database.juros.Juros` ou None
         """
         self.query_string = """SELECT DIAS_EM_ATRASO, PORCENTAGEM_MULTA, JUROS_POR_DIA
-            FROM JUROS WHERE JUROS.DIAS_EM_ATRASO = %(dias_em_atraso)s"""
+            FROM DOMINIO_JUROS WHERE DOMINIO_JUROS.DIAS_EM_ATRASO = %(dias_em_atraso)s"""
         regra = self.find_one()
         return Juros(**dict(regra)) if regra else None
+
+    def listar(self):
+        """
+        Lista as regras de juros do banco de dados.
+
+        :return: Lista de objeto :class:`database.juros.Juros` ou None
+        :rtype: list
+        """
+        self.query_string = "SELECT * FROM DOMINIO_JUROS"
+        return [Juros(**dict(regra)) for regra in self.find_all()]
